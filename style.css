@@ -1,3 +1,65 @@
 body{
     background-color:rgb(216, 216, 216);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    
+}
+* > button,input{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.gameboard{
+    display: grid;
+    grid-template-columns: repeat(3,84px);
+    grid-template-rows: repeat(3,84px);
+    width: 256px;
+    height: 256px;
+    border: 2px solid black;
+}
+
+.gameboard > div{
+    margin: 2px;
+    border: 2px solid black;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+
+}
+.game-text{
+    margin-top: 64px;
+    margin-left: 100px;
+    text-align: center;
+}
+
+.settings{
+    display: flex;
+    flex-direction: column;
+    margin-left: 128px;
+}
+.settings > h3{
+    font-size: 1.2rem;
+    text-align: center;
+}
+.p2-settings{
+
+    margin-top: 50px;
+}
+.p1-settings{
+    margin-top: 10px;
+}
+.settings > button{
+    margin-top: 24px;
+}
+
+.blue{
+    background-color: rgb(125, 125, 250);
+}
+
+.red{
+    background-color: rgb(240, 115, 78);
 }
