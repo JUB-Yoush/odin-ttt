@@ -55,11 +55,3 @@ body{
 .settings > button{
     margin-top: 24px;
 }
-
-.blue{
-    background-color: rgb(125, 125, 250);
-}
-
-.red{
-    background-color: rgb(240, 115, 78);
-}

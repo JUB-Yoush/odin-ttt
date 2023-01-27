@@ -28,6 +28,48 @@ const game = (() => {
   turn it iu
   */
 
+  function wonGame() {
+    /*
+     0 1 2
+     3 4 5
+     6 7 8
+
+     0 3 6
+     1 4 7
+     2 5 8
+
+     0 4 8
+     2 4 6
+      */
+
+    // horizontal win check
+    for (let i = 0; i < 9; i += 3) {
+      if (gameBoard[i].value === gameBoard[i + 1].value && gameBoard[i].value === gameBoard[i + 2].value && gameBoard[i].value !== '') {
+        console.log('i win lol');
+        return true;
+      }
+    }
+    // vertical win check
+    for (let i = 0; i < 3; i += 1) {
+      if (gameBoard[i].value === gameBoard[i + 3].value && gameBoard[i].value === gameBoard[i + 6].value && gameBoard[i].value !== '') {
+        console.log('i win lol');
+        return true;
+      }
+    }
+
+    // diagonal checks
+    if (gameBoard[0].value === gameBoard[4].value && gameBoard[0].value === gameBoard[8].value && gameBoard[0].value !== '') {
+      console.log('i win lol');
+      return true;
+    }
+
+    if (gameBoard[2].value === gameBoard[4].value && gameBoard[2].value === gameBoard[6].value && gameBoard[2].value !== '') {
+      console.log('i win lol');
+      return true;
+    }
+    return false;
+  }
+
   function updateGameState() {
     if (turns > gameBoard.length) {
       // end game
@@ -41,21 +83,33 @@ const game = (() => {
 
       case gameState.p1Turn: // p1 turn
         // check if win else
-        gameState.state = gameState.p2Turn;
-        currentplayer = player2;
-        gameText.textContent = `${currentplayer.name} turn`;
+        if (wonGame()) {
+          gameState.state = gameState.p1Win;
+          gameText.textContent = `${currentplayer.name} wins`;
+        } else {
+          gameState.state = gameState.p2Turn;
+          currentplayer = player2;
+          gameText.textContent = `${currentplayer.name} turn`;
+        }
         break;
 
       case gameState.p2Turn:
         // check if win else
-        gameState.state = gameState.p1Turn;
-        currentplayer = player1;
-        gameText.textContent = `${currentplayer.name} turn`;
+        if (wonGame()) {
+          gameState.state = gameState.p2Win;
+          gameText.textContent = `${currentplayer.name} wins`;
+        } else {
+          gameState.state = gameState.p1Turn;
+          currentplayer = player1;
+          gameText.textContent = `${currentplayer.name} turn`;
+        }
+
         break;
 
       default:
         break;
     }
+    console.log(gameState.state);
   }
 
   function startGame() {
@@ -75,13 +129,23 @@ const game = (() => {
     );
     console.log(player1);
     console.log(player2);
+    gameState.state = gameState.gameStart;
+
+    // resetting
+
+    gameBoard.forEach((tile) => {
+      tile.element.textContent = '';
+      tile.element.style.backgroundColor = 'transparent';
+      tile.value = '';
+    });
+
     updateGameState();
   }
 
   function playMove(tile) {
-    console.log(tile);
+    console.log(gameBoard);
     // check if legal move
-    if (tile.value === '') {
+    if (gameState.state === gameState.p1Win || gameState.state === gameState.p2Win) { alert('game is over! start a new oone'); } else if (tile.value === '') {
       tile.element.textContent = currentplayer.symbol;
       tile.element.style.backgroundColor = currentplayer.color;
       tile.value = currentplayer.id;
@@ -98,6 +162,7 @@ const game = (() => {
     tile.value = '';
     gameBoard.push(tile);
   });
+
   settings.querySelector('button').addEventListener('click', () => { startGame(); });
   updateGameState();
 })();
